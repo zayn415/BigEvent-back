@@ -34,7 +34,7 @@ build/
 
 
 ### yml
-*.yml
+application.yml
 
 ### mvn
 .mvn.wrapper/
