@@ -33,5 +33,10 @@ build/
 .vscode/
 
 
+### yml
+*.yml
+
 ### mvn
 .mvn.wrapper/
+mvnw
+mvnw.cmd
