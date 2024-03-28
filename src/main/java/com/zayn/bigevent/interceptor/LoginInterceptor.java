@@ -1,10 +1,13 @@
 package com.zayn.bigevent.interceptor;
 
 import com.zayn.bigevent.utils.JWTUtil;
+import com.zayn.bigevent.utils.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.Map;
 
 /**
  * @author zayn
@@ -15,10 +18,22 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Authorization");
-        if (token == null) {
+        try {
+            Map<String, Object> claims = JWTUtil.parseToken(token);
+            ThreadLocalUtil.set(claims);
+            return true;
+        } catch (Exception e) {
             response.setStatus(401);
             return false;
         }
-        return JWTUtil.verifyToken(token);
+    }
+    
+    /*
+      
+      重写afterCompletion方法，清除ThreadLocal缓存
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        ThreadLocalUtil.remove();
     }
 }

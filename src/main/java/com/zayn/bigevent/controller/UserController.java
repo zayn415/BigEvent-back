@@ -5,6 +5,7 @@ import com.zayn.bigevent.pojo.Result;
 import com.zayn.bigevent.pojo.UserDetail;
 import com.zayn.bigevent.service.UserService;
 import com.zayn.bigevent.utils.JWTUtil;
+import com.zayn.bigevent.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -45,7 +46,7 @@ public class UserController {
     @GetMapping("/info")
     public Result getUserInfo(@RequestHeader(name = "Authorization") String token) {
         try {
-            Map<String, Object> claims = JWTUtil.parseToken(token);
+            Map<String, Object> claims = ThreadLocalUtil.get();
             String id = claims.get("id").toString();
             UserDetail ud = userService.getUserInfo(id);
             return Result.success(ud);
