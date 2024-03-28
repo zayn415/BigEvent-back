@@ -57,3 +57,11 @@ JWT的形式：header.payload.signature
 测试方法使用注解`@Test`
 
 PS: `@Component`注解是将类注册到容器，测试类用该注解会报错，需要使用`@SpringBootTest`注解
+
+### 关于gitignore不生效的问题
+> 即在gitignore中添加了的文件，但是在git status中还是会显示出来
+
+解决方法：
+- 清除缓存：`git rm -r --cached .`
+- 重新添加文件：`git add .`
+- 再次提交
