@@ -73,4 +73,5 @@ PS: `@Component`注解是将类注册到容器，测试类用该注解会报错�
 - get获取数据
 - remove移除数据
 - 线程安全：ThreadLocal是线程安全的，因为每个线程都有自己的ThreadLocalMap，互不干扰
-- 
+
+### Valid和Validated的区别
