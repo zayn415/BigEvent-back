@@ -2,11 +2,15 @@ package com.zayn.bigevent.controller;
 
 import com.zayn.bigevent.annotations.Password;
 import com.zayn.bigevent.pojo.Result;
+import com.zayn.bigevent.pojo.UpdatePasswordRequest;
+import com.zayn.bigevent.pojo.User;
 import com.zayn.bigevent.pojo.UserDetail;
 import com.zayn.bigevent.service.UserService;
-import com.zayn.bigevent.utils.JWTUtil;
+import com.zayn.bigevent.utils.Md5Util;
 import com.zayn.bigevent.utils.ThreadLocalUtil;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +48,7 @@ public class UserController {
     }
     
     @GetMapping("/info")
-    public Result getUserInfo(@RequestHeader(name = "Authorization") String token) {
+    public Result getUserInfo() {
         try {
             Map<String, Object> claims = ThreadLocalUtil.get();
             String id = claims.get("id").toString();
@@ -53,5 +57,40 @@ public class UserController {
         } catch (Exception e) {
             return Result.error(e.getMessage());
         }
+    }
+    
+    @PostMapping("/updateInfo")
+    public Result updateInfo(@RequestBody @Valid UserDetail userDetail) {
+        try {
+            UserDetail ud = userService.updateInfo(userDetail);
+            return Result.success(ud);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    @PatchMapping("/updateAvatar")
+    public Result updateAvatar(@RequestParam @URL String avatarURL) {
+        try {
+            userService.updateAvatar(avatarURL);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    @PatchMapping("/updatePwd")
+    public Result updatePassword(@RequestBody @Valid UpdatePasswordRequest pwds) {
+        Map<String, Object> claims = ThreadLocalUtil.get();
+        String email = claims.get("email").toString();
+        User loginUser = userService.findUserByEmail(email);
+        if (!Md5Util.getMD5String(pwds.getOldPwd()).equals(loginUser.getPassword())) {
+            return Result.error("The old password is incorrect");
+        }
+        if (!pwds.getNewPwd().equals(pwds.getCfmPwd())) {
+            return Result.error("The two passwords are inconsistent");
+        }
+        userService.updatePwd(pwds.getNewPwd());
+        return Result.success();
     }
 }

@@ -3,6 +3,7 @@ package com.zayn.bigevent.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zayn.bigevent.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author zayn
@@ -10,4 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
+    @Update("update user set password = #{md5String} where id = #{id}")
+    void updatePassword(String id, String md5String);
 }

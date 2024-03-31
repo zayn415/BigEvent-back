@@ -8,10 +8,12 @@ import com.zayn.bigevent.pojo.UserDetail;
 import com.zayn.bigevent.service.UserService;
 import com.zayn.bigevent.utils.JWTUtil;
 import com.zayn.bigevent.utils.Md5Util;
+import com.zayn.bigevent.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -66,5 +68,38 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> claims = Map.of("id", user.getId(), "email", email);
         log.info("用户登录：{}", email);
         return JWTUtil.createToken(claims);
+    }
+    
+    @Override
+    public void updatePwd(String password) {
+        Map<String, Object> claims = ThreadLocalUtil.get();
+        String id = claims.get("id").toString();
+        log.info("修改密码：{}", id);
+        userMapper.updatePassword(id, Md5Util.getMD5String(password));
+    }
+    
+    @Override
+    public UserDetail updateInfo(UserDetail userDetail) {
+        try {
+            Map<String, Object> claims = ThreadLocalUtil.get();
+            String id = claims.get("id").toString();
+            log.info("更新用户信息：{}", id);
+            userDetail.setUpdateTime(LocalDateTime.now());
+            userDetailMapper.update(userDetail, new QueryWrapper<UserDetail>().eq("user_id", id));
+            return userDetailMapper.selectOne(new QueryWrapper<UserDetail>().eq("user_id", id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    @Override
+    public void updateAvatar(String avatar) {
+        try {
+            Map<String, Object> claims = ThreadLocalUtil.get();
+            String user_id = claims.get("id").toString();
+            userDetailMapper.updateAvatar(user_id, avatar);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

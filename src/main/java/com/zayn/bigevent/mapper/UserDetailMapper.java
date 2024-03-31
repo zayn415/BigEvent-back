@@ -3,6 +3,7 @@ package com.zayn.bigevent.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zayn.bigevent.pojo.UserDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author zayn
@@ -10,4 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserDetailMapper extends BaseMapper<UserDetail> {
+    @Update("update user_detail set avatar = #{avatar} , update_time = now() where user_id = #{id}")
+    void updateAvatar(String id, String avatar);
 }

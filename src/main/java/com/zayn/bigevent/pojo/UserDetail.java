@@ -2,10 +2,11 @@ package com.zayn.bigevent.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author zayn
@@ -14,17 +15,15 @@ import java.util.Date;
 @Data
 @TableName("user_detail")
 public class UserDetail {
-    @NotNull
     private Long id;
-    
     @NotNull
     @TableField("user_id")
     private Long userId;
     private String nickname;
     private String avatar;
     private String phone;
-    @NotNull
-    private Date createTime;
-    @NotNull
-    private Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 }

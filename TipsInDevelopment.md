@@ -65,3 +65,12 @@ PS: `@Component`注解是将类注册到容器，测试类用该注解会报错�
 - 清除缓存：`git rm -r --cached .`
 - 重新添加文件：`git add .`
 - 再次提交
+
+### ThreadLocal
+> ThreadLocal是一个线程内部的数据存储类，可以在每个线程中存储数据，数据存储以后，只有当前线程可以获取到这个数据，其他线程无法获取到这个数据。
+
+- set存储数据
+- get获取数据
+- remove移除数据
+- 线程安全：ThreadLocal是线程安全的，因为每个线程都有自己的ThreadLocalMap，互不干扰
+- 
