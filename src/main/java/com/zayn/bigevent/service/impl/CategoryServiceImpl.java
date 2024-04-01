@@ -32,14 +32,25 @@ public class CategoryServiceImpl implements CategoryService {
         category.setCreateTime(LocalDateTime.now());
         category.setUpdateTime(LocalDateTime.now());
         Map<String, Object> map = ThreadLocalUtil.get();
-        category.setCreateUser((Long) map.get("id"));
+        category.setCreateUser((Integer) map.get("id"));
         categoryMapper.insert(category);
     }
     
     @Override
     public List<Category> list() {
         Map<String, Object> claims = ThreadLocalUtil.get();
-        String id = claims.get("id").toString();
-        return categoryMapper.selectByUserId(Long.parseLong(id));
+        Integer id = (Integer) claims.get("id");
+        return categoryMapper.selectByUserId(id);
+    }
+    
+    @Override
+    public Object getById(Integer id) {
+        return categoryMapper.selectById(id);
+    }
+    
+    @Override
+    public void update(Category category) {
+        category.setUpdateTime(LocalDateTime.now());
+        categoryMapper.updateById(category);
     }
 }

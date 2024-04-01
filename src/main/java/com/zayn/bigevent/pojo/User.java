@@ -9,8 +9,6 @@ import lombok.Data;
 @Data
 @TableName("user")
 public class User {
-
-    @NotNull
     private Integer id;
 
     @Email(message = "邮箱格式不正确")

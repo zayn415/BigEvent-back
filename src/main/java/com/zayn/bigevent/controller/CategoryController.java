@@ -23,7 +23,7 @@ public class CategoryController {
     private CategoryService categoryService;
     
     @PostMapping("/add")
-    public Result addCategory(@RequestBody @Validated Category category) {
+    public Result addCategory(@RequestBody @Validated(Category.add.class) Category category) {
         categoryService.addCategory(category);
         return Result.success();
     }
@@ -32,5 +32,16 @@ public class CategoryController {
     public Result<List<Category>> list() {
         List<Category> categories = categoryService.list();
         return Result.success(categories);
+    }
+    
+    @GetMapping("/detail")
+    public Result detail(Integer id) {
+        return Result.success(categoryService.getById(id));
+    }
+    
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated(Category.update.class) Category category) {
+        categoryService.update(category);
+        return Result.success();
     }
 }

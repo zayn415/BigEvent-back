@@ -3,33 +3,30 @@ package com.zayn.bigevent.pojo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.groups.Default;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 
 /**
  * @author zayn
- * * @date 2024/3/31/23:44
+ * * @date 2024/4/1/20:14
  */
 @Data
-@TableName("category")
-public class Category {
-    @NotNull(message = "id不能为空", groups = {update.class})
+@TableName("article")
+public class Article {
     private Integer id;
-    @NotEmpty(message = "分类名称不能为空")
-    private String categoryName;
-//    @NotEmpty(message = "创建者不能为空")
+    @NotEmpty
+    private String title;
+    @NotEmpty
+    private String content;
+    @URL
+    private String coverImg;
+    private int state;
+    private Integer categoryId;
     private Integer createUser;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
-    
-    public interface add extends Default {
-    }
-    
-    public interface update extends Default {
-    }
 }

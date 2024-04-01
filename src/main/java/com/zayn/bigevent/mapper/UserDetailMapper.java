@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface UserDetailMapper extends BaseMapper<UserDetail> {
     @Update("update user_detail set avatar = #{avatar} , update_time = now() where user_id = #{id}")
-    void updateAvatar(String id, String avatar);
+    void updateAvatar(Integer id, String avatar);
 }

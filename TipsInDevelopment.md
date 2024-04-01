@@ -75,3 +75,29 @@ PS: `@Component`注解是将类注册到容器，测试类用该注解会报错�
 - 线程安全：ThreadLocal是线程安全的，因为每个线程都有自己的ThreadLocalMap，互不干扰
 
 ### Valid和Validated的区别
+
+
+
+### 分组校验
+- 在实体类中定义校验分组
+- 在属性上使用groups指定分组
+- 在controller中使用`@Validated`注解指定校验分组
+
+```java
+    @NotNull(message = "id不能为空", groups = {update.class})
+    private Integer id;
+    @NotEmpty(message = "分类名称不能为空")
+    private String categoryName;
+//    @NotEmpty(message = "创建者不能为空")
+    private Integer createUser;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+    
+    public interface add extends Default {
+    }
+    
+    public interface update extends Default {
+    } 
+```

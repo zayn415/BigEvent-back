@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     @Update("update user set password = #{md5String} where id = #{id}")
-    void updatePassword(String id, String md5String);
+    void updatePassword(Integer id, String md5String);
 }

@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePwd(String password) {
         Map<String, Object> claims = ThreadLocalUtil.get();
-        String id = claims.get("id").toString();
+        Integer id = (Integer) claims.get("id");
         log.info("修改密码：{}", id);
         userMapper.updatePassword(id, Md5Util.getMD5String(password));
     }
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     public UserDetail updateInfo(UserDetail userDetail) {
         try {
             Map<String, Object> claims = ThreadLocalUtil.get();
-            String id = claims.get("id").toString();
+            Integer id = (Integer) claims.get("id");
             log.info("更新用户信息：{}", id);
             userDetail.setUpdateTime(LocalDateTime.now());
             userDetailMapper.update(userDetail, new QueryWrapper<UserDetail>().eq("user_id", id));
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     public void updateAvatar(String avatar) {
         try {
             Map<String, Object> claims = ThreadLocalUtil.get();
-            String user_id = claims.get("id").toString();
+            Integer user_id = (Integer) claims.get("id");
             userDetailMapper.updateAvatar(user_id, avatar);
         } catch (Exception e) {
             throw new RuntimeException(e);
