@@ -11,7 +11,7 @@ import lombok.Data;
 public class User {
 
     @NotNull
-    private Long id;
+    private Integer id;
 
     @Email(message = "邮箱格式不正确")
     private String email;

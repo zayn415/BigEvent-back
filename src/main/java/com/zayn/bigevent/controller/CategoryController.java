@@ -6,10 +6,9 @@ import com.zayn.bigevent.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author zayn
@@ -27,5 +26,11 @@ public class CategoryController {
     public Result addCategory(@RequestBody @Validated Category category) {
         categoryService.addCategory(category);
         return Result.success();
+    }
+    
+    @GetMapping("list")
+    public Result<List<Category>> list() {
+        List<Category> categories = categoryService.list();
+        return Result.success(categories);
     }
 }

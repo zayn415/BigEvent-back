@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,5 +34,12 @@ public class CategoryServiceImpl implements CategoryService {
         Map<String, Object> map = ThreadLocalUtil.get();
         category.setCreateUser((Long) map.get("id"));
         categoryMapper.insert(category);
+    }
+    
+    @Override
+    public List<Category> list() {
+        Map<String, Object> claims = ThreadLocalUtil.get();
+        String id = claims.get("id").toString();
+        return categoryMapper.selectByUserId(Long.parseLong(id));
     }
 }

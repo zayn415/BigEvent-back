@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 @TableName("category")
 public class Category {
 //    @NotNull
-    private Long id;
+    private Integer id;
     @NotEmpty(message = "分类名称不能为空")
     private String categoryName;
 //    @NotEmpty(message = "创建者不能为空")
-    private Long createUser;
+    private Integer createUser;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

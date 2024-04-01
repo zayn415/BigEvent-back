@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 @Data
 @TableName("user_detail")
 public class UserDetail {
-    private Long id;
+    private Integer id;
     
     @NotNull
     @TableField("user_id")
-    private Long userId;
+    private Integer userId;
     
     private String nickname;
     
