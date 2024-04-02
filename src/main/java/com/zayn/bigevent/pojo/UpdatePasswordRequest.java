@@ -1,5 +1,6 @@
 package com.zayn.bigevent.pojo;
 
+import com.zayn.bigevent.annotations.Password;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -10,9 +11,14 @@ import lombok.Data;
 @Data
 public class UpdatePasswordRequest {
     @NotNull
+    @Password
     private String oldPwd;
+    
     @NotNull
+    @Password
     private String newPwd;
+    
     @NotNull
+    @Password
     private String cfmPwd;
 }

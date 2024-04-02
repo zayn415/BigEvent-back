@@ -22,23 +22,35 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     
+    /*
+        * 添加分类
+     */
     @PostMapping("/add")
     public Result addCategory(@RequestBody @Validated(Category.add.class) Category category) {
         categoryService.addCategory(category);
         return Result.success();
     }
     
+    /*
+        * 删除分类
+     */
     @GetMapping("list")
     public Result<List<Category>> list() {
         List<Category> categories = categoryService.list();
         return Result.success(categories);
     }
     
+    /*
+        * 删除分类
+     */
     @GetMapping("/detail")
     public Result detail(Integer id) {
         return Result.success(categoryService.getById(id));
     }
     
+    /*
+        * 删除分类
+     */
     @PutMapping("/update")
     public Result update(@RequestBody @Validated(Category.update.class) Category category) {
         categoryService.update(category);

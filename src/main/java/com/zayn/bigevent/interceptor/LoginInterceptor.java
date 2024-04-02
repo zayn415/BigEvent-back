@@ -15,6 +15,16 @@ import java.util.Map;
  */
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
+    
+    /**
+     * 重写preHandle方法，验证token是否有效
+     * 将解析出的claims放入ThreadLocal缓存
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Authorization");
@@ -29,7 +39,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
     
     /*
-      
       重写afterCompletion方法，清除ThreadLocal缓存
      */
     @Override

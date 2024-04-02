@@ -11,6 +11,11 @@ import org.apache.ibatis.annotations.Update;
  */
 @Mapper
 public interface UserDetailMapper extends BaseMapper<UserDetail> {
+    /**
+     * 更新用户头像
+     * @param id 用户id
+     * @param avatar 头像url
+     */
     @Update("update user_detail set avatar = #{avatar} , update_time = now() where user_id = #{id}")
     void updateAvatar(Integer id, String avatar);
 }

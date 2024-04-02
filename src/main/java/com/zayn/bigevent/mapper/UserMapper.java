@@ -11,6 +11,11 @@ import org.apache.ibatis.annotations.Update;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
+    /**
+     * 更新密码
+     * @param id 用户id
+     * @param md5String md5加密后的密码
+     */
     @Update("update user set password = #{md5String} where id = #{id}")
     void updatePassword(Integer id, String md5String);
 }

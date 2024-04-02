@@ -7,14 +7,15 @@ import java.lang.annotation.*;
 
 /**
  * @author zayn
- * * @date 2024/3/26/21:43
+ * * @date 2024/4/1/22:06
  */
+
 @Documented // 生成文档
-@Target({ElementType.PARAMETER, ElementType.FIELD}) // 作用在参数上
+@Target({ElementType.FIELD}) // 作用在字段上
 @Retention(RetentionPolicy.RUNTIME) // 运行时生效
-@Constraint(validatedBy = {PasswordValidator.class}) //关联校验器
-public @interface Password {
-    String message() default "Invalid password"; // 校验不通过时默认返回的信息
+@Constraint(validatedBy = {StateValidation.class}) //关联校验器
+public @interface State {
+    String message() default "Invalid state"; // 校验不通过时默认返回的信息
     
     Class<?>[] groups() default {}; // 分组
     

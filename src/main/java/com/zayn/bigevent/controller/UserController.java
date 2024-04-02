@@ -28,6 +28,9 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    /*
+        * 用户注册
+     */
     @PostMapping("/register")
     public Result register(@Email String email, @Password String password) {
         if (userService.findUserByEmail(email) != null) {
@@ -37,6 +40,9 @@ public class UserController {
         return Result.success();
     }
     
+    /*
+        * 用户登录
+     */
     @PostMapping("/login")
     public Result login(@Email String email, @Password String password) {
         try {
@@ -47,6 +53,9 @@ public class UserController {
         }
     }
     
+    /*
+        * 获取用户信息
+     */
     @GetMapping("/info")
     public Result getUserInfo() {
         try {
@@ -59,6 +68,9 @@ public class UserController {
         }
     }
     
+    /*
+        * 更新用户信息
+     */
     @PostMapping("/updateInfo")
     public Result updateInfo(@RequestBody @Valid UserDetail userDetail) {
         try {
@@ -69,6 +81,9 @@ public class UserController {
         }
     }
     
+    /*
+        * 更新用户头像
+     */
     @PatchMapping("/updateAvatar")
     public Result updateAvatar(@RequestParam @URL String avatarURL) {
         try {
@@ -79,6 +94,10 @@ public class UserController {
         }
     }
     
+    /*
+        * 更新用户密码
+        * @param pwds 旧密码、新密码和确认密码
+     */
     @PatchMapping("/updatePwd")
     public Result updatePassword(@RequestBody @Valid UpdatePasswordRequest pwds) {
         Map<String, Object> claims = ThreadLocalUtil.get();

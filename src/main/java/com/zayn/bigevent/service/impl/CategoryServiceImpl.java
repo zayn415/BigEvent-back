@@ -36,6 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.insert(category);
     }
     
+    /**
+     * 查询分类列表
+     * @return 分类列表
+     */
     @Override
     public List<Category> list() {
         Map<String, Object> claims = ThreadLocalUtil.get();
@@ -43,11 +47,20 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.selectByUserId(id);
     }
     
+    /**
+     * 根据id删除分类
+     * @param id 分类id
+     * @return 是否删除成功
+     */
     @Override
     public Object getById(Integer id) {
         return categoryMapper.selectById(id);
     }
     
+    /**
+     * 更新分类信息
+     * @param category 更新后的分类信息
+     */
     @Override
     public void update(Category category) {
         category.setUpdateTime(LocalDateTime.now());

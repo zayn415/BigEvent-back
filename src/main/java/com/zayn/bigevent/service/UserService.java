@@ -9,6 +9,7 @@ import com.zayn.bigevent.pojo.UserDetail;
  */
 public interface UserService {
     User findUserByEmail(String email);
+    
     UserDetail getUserInfo(String userId);
     
     void register(String email, String password);

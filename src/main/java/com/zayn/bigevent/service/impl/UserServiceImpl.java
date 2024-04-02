@@ -28,6 +28,12 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private UserDetailMapper userDetailMapper;
+    
+    /**
+     * 根据邮箱查询用户
+     * @param email 邮箱
+     * @return 用户对象
+     */
     @Override
     public User findUserByEmail(String email) {
         QueryWrapper<User> qw = new QueryWrapper<>();
@@ -36,6 +42,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOne(qw);
     }
     
+    /**
+     * 根据用户id查询用户信息
+     * @param userId 用户id
+     * @return 用户信息
+     */
     @Override
     public UserDetail getUserInfo(String userId) {
         QueryWrapper<UserDetail> qw = new QueryWrapper<>();
@@ -44,6 +55,11 @@ public class UserServiceImpl implements UserService {
         return userDetailMapper.selectOne(qw);
     }
     
+    /**
+     * 注册用户
+     * @param email 邮箱
+     * @param password 密码
+     */
     @Override
     public void register(String email, String password) {
         User user = new User();
@@ -53,10 +69,16 @@ public class UserServiceImpl implements UserService {
         userMapper.insert(user);
     }
     
+    /**
+     * 用户登录
+     * @param email 邮箱
+     * @param password 密码
+     * @return token
+     */
     @Override
     public String login(String email, String password) {
         User user = findUserByEmail(email);
-        if(user == null) {
+        if (user == null) {
             log.info("邮箱不存在：{}", email);
             return "Email does not exist";
         }
@@ -70,6 +92,10 @@ public class UserServiceImpl implements UserService {
         return JWTUtil.createToken(claims);
     }
     
+    /**
+     * 修改密码
+     * @param password 新的密码
+     */
     @Override
     public void updatePwd(String password) {
         Map<String, Object> claims = ThreadLocalUtil.get();
@@ -78,6 +104,11 @@ public class UserServiceImpl implements UserService {
         userMapper.updatePassword(id, Md5Util.getMD5String(password));
     }
     
+    /**
+     * 更新用户信息
+     * @param userDetail 用户信息
+     * @return 新的用户信息
+     */
     @Override
     public UserDetail updateInfo(UserDetail userDetail) {
         try {
@@ -92,6 +123,10 @@ public class UserServiceImpl implements UserService {
         }
     }
     
+    /**
+     * 更新头像
+     * @param avatar 头像地址
+     */
     @Override
     public void updateAvatar(String avatar) {
         try {
