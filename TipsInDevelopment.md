@@ -157,3 +157,59 @@ public interface update extends Default {
 ### 文件上传
 
 - 为了防止文件名重复，可以使用UUID（唯一标识符）来生成文件名
+
+### 项目部署
+- 将项目打包成jar包，maven项目中使用`mvn clean package`命令打包
+- 使用`java -jar`命令运行，系统需要安装JDK，具备JRE
+- 使用`nohup java -jar xxx.jar &`命令后台运行(`nohup`命令用于忽略挂起信号，`&`命令用于后台运行)
+- 
+
+### 配置文件优先级
+1. 命令行参数
+2. 操作系统环境变量
+3. jar包目录下的yml或properties文件
+4. resources包下的yml或properties文件
+
+
+### 多环境开发-Profiles
+#### 单配置文件
+##### 分隔不同环境的配置
+使用`---`分隔不同环境的配置
+
+##### 指定哪些配置属于哪些环境
+在`application.yml`中使用`spring.config.activate.on-profile`指定配置属于哪个环境
+```yml
+spring:
+  config:
+    activate:
+      on-profile: 环境名称
+```
+##### 指定某个环境的配置生效
+在`application.yml`中使用`spring.profiles.active`指定环境
+```yml
+spring:
+  profiles:
+    active: 环境名称
+```
+
+#### 多配置文件
+文件名称为`application-xxx.yml`，如`application-dev.yml`为开发环境配置文件。
+
+在`application.yml`文件中指定生效的环境
+```yaml
+spring:
+  profiles:
+    active: dev
+```
+
+##### 分组
+- 按配置的类别，将配置信息写入到不同的配置文件，命名方式为：`application-分类名.yml`(如`application-devServer.yml`)
+- 在`application.yml`中定义分组并激活分组
+```yaml
+spring:
+  profiles:
+    group:
+      "dev": devServer,devDB,devSelf
+      "test": testServer,testDB,testSelf
+    active: dev # 激活dev分组的配置
+```

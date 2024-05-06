@@ -11,10 +11,14 @@ import com.zayn.bigevent.utils.Md5Util;
 import com.zayn.bigevent.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zayn
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private UserDetailMapper userDetailMapper;
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     
     /**
      * 根据邮箱查询用户
@@ -78,18 +85,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String email, String password) {
         User user = findUserByEmail(email);
-        if (user == null) {
-            log.info("邮箱不存在：{}", email);
-            return "Email does not exist";
-        }
-        if (!user.getPassword().equals(Md5Util.getMD5String(password))) {
-            log.info("密码错误");
-            return "Password error";
-        }
-        
-        Map<String, Object> claims = Map.of("id", user.getId(), "email", email);
         log.info("用户登录：{}", email);
-        return JWTUtil.createToken(claims);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", user.getId());
+        claims.put("email", email);
+        String token = JWTUtil.createToken(claims);
+        
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        operations.set(token, token, 12, TimeUnit.HOURS); // 12 hours timeout
+        return token;
     }
     
     /**

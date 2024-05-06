@@ -32,7 +32,7 @@ public class CategoryController {
     }
     
     /*
-        * 删除分类
+        * 查询分类列表
      */
     @GetMapping("list")
     public Result<List<Category>> list() {
@@ -49,7 +49,7 @@ public class CategoryController {
     }
     
     /*
-        * 删除分类
+        * 更新分类
      */
     @PutMapping("/update")
     public Result update(@RequestBody @Validated(Category.update.class) Category category) {
